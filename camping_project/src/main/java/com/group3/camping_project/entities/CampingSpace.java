@@ -41,4 +41,7 @@ public class CampingSpace implements Serializable {
     @OneToMany(mappedBy = "campingSpace")
     private List<Review> review;
 
+    @OneToMany(mappedBy = "campingSpace", cascade = CascadeType.ALL)
+    private List<Rating> ratings;
+
 }
