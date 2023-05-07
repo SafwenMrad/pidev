@@ -2,6 +2,7 @@ package com.group3.camping_project.controller;
 
 import com.group3.camping_project.entities.ChargeRequest;
 import com.group3.camping_project.service.equipement_service.ImpEquipe;
+import com.group3.camping_project.service.equipement_service.ImpPayment;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.*;
@@ -10,10 +11,7 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.mail.*;
@@ -23,6 +21,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.HashMap;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -36,9 +35,15 @@ public class PaymentController {
 
     @Autowired
     ImpEquipe iEquipmentRepo;
-
+    @Autowired
+    ImpPayment impPayment;
+@GetMapping("getall")
+public List<ChargeRequest> requestList(){
+    return impPayment.requestList();
+}
     @PostMapping("/charge")
     public String charge(@RequestBody ChargeRequest chargeRequest) throws StripeException {
+
         Map<String, Object> cardParams = new HashMap<>();
         cardParams.put("number", chargeRequest.getCardNumber());
         cardParams.put("exp_month", chargeRequest.getExp_month());
@@ -55,14 +60,15 @@ public class PaymentController {
                 .setReceiptEmail(chargeRequest.getEmail())
                 .setSource(token.getId())
                 .build();
-        String accountSid = "ACce68051a70f5d4095d633ac8477e18cf";
-        String authToken = "28006f292fe803915b17aa1c7417db7d";
-        Twilio.init(accountSid, authToken);
+//        String accountSid = "ACce68051a70f5d4095d633ac8477e18cf";
+//        String authToken = "28006f292fe803915b17aa1c7417db7d";
+//        Twilio.init(accountSid, authToken);
           Charge charge = Charge.create(params);
         if (charge.getStatus().equals("succeeded")) {
-            String message = "Thank you for your payment!";
-            String toPhoneNumber = chargeRequest.getPhone();
-            Message.creator(new PhoneNumber(toPhoneNumber), new PhoneNumber("+16073262416"), message).create();
+            impPayment.ajouter(chargeRequest);
+//            String message = "Thank you for your payment!";
+//            String toPhoneNumber = chargeRequest.getPhone();
+//            Message.creator(new PhoneNumber(toPhoneNumber), new PhoneNumber("+16073262416"), message).create();
             final String username = "klaimohamed1994@gmail.com";
             final String password = "eblgesjukcqncydy";
 
@@ -160,9 +166,11 @@ public class PaymentController {
                         "\t\t<div class=\"container\">\n" +
                         "\t\t\t<h1>Payment Receipt</h1>\n" +
                         "\t\t\t<p>Thank you for your payment. Below is your receipt:</p>\n" +
+                        "\t\t\t<p>Votre nom:</p>"+chargeRequest.getName() +
+                        "\t\t\t<p>Date :</p>"+chargeRequest.getCreatedAt() +"\n"+
                         "\t\t\t\t\t\t<strong>Total :</strong>\n" +
-                        "\t\t\t\t\t\t<strong>"+chargeRequest.getAmount()+"USD" +
-                        "$</ strong>\n" +
+                        "\t\t\t\t\t\t<strong>"+chargeRequest.getAmount()+"TND" +
+                        "</ strong>\n" +
                         "\t\t\t<p>Please keep this receipt for your records. If you have any questions about your payment, please contact us at <a href=\"mailto:klaimohamed1994@gmail.com\">klaimohamed1994@gmail.com</a>.</p>\n" +
                         "\t\t</div>\n" +
                         "\t\t<div class=\"footer\">\n" +

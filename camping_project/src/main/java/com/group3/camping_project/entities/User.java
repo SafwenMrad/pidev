@@ -63,6 +63,7 @@ public class User implements Serializable {
     private List<CampingSpace> createdCampingSpace;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Equipment> equipment;
 
     @ManyToMany(mappedBy = "goingUsers")

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter
@@ -16,20 +17,25 @@ public class ChargeRequest implements Serializable {
     @Id
     @GeneratedValue
     private int id;
-    private String name;
-    private String email;
     private String cardNumber;
     private String exp_month;
     private String exp_year;
-    private String phone;
     private String cvv;
-    private Long amount;
+    private String name;
+    private long amount;
     private String currency;
-    private String customer;
     private String description;
-    private String token;
-    private String postal_code;
-    private int total;
+    private String email;
+    private String phone;
+    @Column(updatable = false)
+    private LocalDateTime createdAt ;
+    @PrePersist
+    public void create(){
+        createdAt = LocalDateTime.now();
+
+    }
+
+
 
 
 }

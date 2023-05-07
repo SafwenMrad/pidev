@@ -45,7 +45,7 @@ public class ControllerEquipment {
         return impEquipe.addEquipment2(equipment,id,id1);
     }
     @GetMapping("/getbytype")
-    public List<Equipment>equipment (EquipmentType equipmentType){
+    public List<Equipment>equipment (@RequestParam("equipmentType") EquipmentType equipmentType){
         return impEquipe.findbytype(equipmentType);
     }
     @PutMapping("/updateEquipment1/{id}")
