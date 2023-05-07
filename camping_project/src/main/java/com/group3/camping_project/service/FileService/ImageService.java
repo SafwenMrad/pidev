@@ -19,10 +19,10 @@ public class ImageService implements IImageService{
 
 
     @Override
-    public String saveImage(MultipartFile file) throws IOException {
+    public Image saveImage(MultipartFile file) throws IOException {
        Image image= iImageRepo.save(Image.builder().imageData(FileUtils.compressFile(file.getBytes())).build());
     if(image !=null){
-        return "image uploaded successfully";}
+        return image;}
     else {
         return null;
     }

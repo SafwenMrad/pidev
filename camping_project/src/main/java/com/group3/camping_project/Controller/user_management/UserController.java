@@ -1,15 +1,81 @@
-//package com.group3.camping_project.controller.user_management;
-//
-//import com.group3.camping_project.entities.User;
-//import com.group3.camping_project.service.user_management.IUserService;
-//
-//
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.access.prepost.PreAuthorize;
-//import org.springframework.web.bind.annotation.*;
-//import org.modelmapper.ModelMapper;
-//import javax.servlet.http.HttpServletRequest;
+package com.group3.camping_project.controller.user_management;
+
+import com.group3.camping_project.entities.User;
+import com.group3.camping_project.service.user_management.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@CrossOrigin(origins = "*")
+
+@RequestMapping("/users")
+@RestController
+
+public class UserController {
+
+    @Autowired
+    private IUserService iUserService ;
+
+    @GetMapping("/all")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = iUserService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/get-user-by-id/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable int id) {
+        User user = iUserService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/get-user-by-username/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        User user = iUserService.getUserByUsername(username);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/delete-user-by-username/{username}")
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> deleteUserByUsername(@PathVariable String username) {
+        iUserService.deleteUserByUsername(username);
+        return ResponseEntity.ok("User deleted");
+    }
+
+    @DeleteMapping(value = "/delete-user-by-id/{id}")
+   // @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<String> delete(@PathVariable("id") int id) {
+        iUserService.deleteUserById(id);
+        return ResponseEntity.ok("User deleted");
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //
 //
 //
@@ -41,12 +107,7 @@
 //    return msg;
 //}
 //
-//        @DeleteMapping(value = "/{username}")
-//        //@PreAuthorize("hasRole('ROLE_ADMIN')")
-//        public String delete(@PathVariable("Username") String username) {
-//            userService.delete(username);
-//            return username;
-//        }
+
 //
 //        @GetMapping(value = "/{username}")
 //        @PreAuthorize("hasRole('ROLE_ADMIN')")

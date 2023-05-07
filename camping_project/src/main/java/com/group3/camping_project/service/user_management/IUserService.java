@@ -7,22 +7,38 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 public interface IUserService {
 
    // String signin(String username, String password);
 
-    String signup(User user);
+//    String signup(User user);
+//
+//    void delete(String username);
+//
+//    User search(String username);
+//
+//    User whoami(HttpServletRequest req);
+//
+//    String refresh(String username);
+//
+//    User findUserByUserName(String userName);
+//
+//    User saveUser(User user);
 
-    void delete(String username);
+    Optional<User> findByEmail(String email);
 
-    User search(String username);
+    User createUser(User user);
 
-    User whoami(HttpServletRequest req);
 
-    String refresh(String username);
+    List<User> getAllUsers();
 
-    User findUserByUserName(String userName);
+    User getUserById(int id);
 
-    User saveUser(User user);
+    User getUserByUsername(String username);
+
+    void deleteUserById(int id);
+
+    void deleteUserByUsername(String username);
 }

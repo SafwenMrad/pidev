@@ -1,4 +1,5 @@
-package com.group3.camping_project.Controller;
+package com.group3.camping_project.controller;
+//package com.group3.camping_project.Controller;
 
 import com.group3.camping_project.entities.Post;
 import org.springframework.beans.factory.annotation.Autowired;

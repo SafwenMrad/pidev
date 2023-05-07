@@ -39,9 +39,9 @@ public class ControllerEquipment {
     }
      @PostMapping("/image")
      public ResponseEntity<?> save(@RequestParam MultipartFile file,@RequestBody Equipment equipment) throws IOException {
-         String message =iImageService.saveImage(file);
+        iImageService.saveImage(file);
          Equipment equipment1 = impEquipe.addequipment(equipment);
-         EquipmentResponse response = new EquipmentResponse(equipment1, message);
+         EquipmentResponse response = new EquipmentResponse(equipment1, "message");
          return ResponseEntity.status(HttpStatus.OK).body(response);
 
      }

@@ -28,8 +28,8 @@ public class ImageController {
 
     @PostMapping("/saveImage")
     public ResponseEntity<?> saveImage(@RequestParam MultipartFile file) throws IOException {
-        String message =iImageService.saveImage(file);
-        return ResponseEntity.status(HttpStatus.OK).body(message);
+        iImageService.saveImage(file);
+        return ResponseEntity.status(HttpStatus.OK).body("image zaved");
     }
 
     @GetMapping("/getImage/{id}")

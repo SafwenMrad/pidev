@@ -5,15 +5,13 @@ import com.group3.camping_project.controller.user_management.request.LoginReques
 import com.group3.camping_project.controller.user_management.request.SignupRequest;
 import com.group3.camping_project.controller.user_management.response.JwtResponse;
 import com.group3.camping_project.controller.user_management.response.MessageResponse;
-import com.group3.camping_project.entities.Role;
 import com.group3.camping_project.entities.User;
-import com.group3.camping_project.entities.enums.ERole;
+
 import com.group3.camping_project.repository.IRoleRepo;
 import com.group3.camping_project.repository.IUserRepo;
 
 import com.group3.camping_project.security.JwtUtils;
-import com.group3.camping_project.service.user_management.AuthService;
-import com.group3.camping_project.service.user_management.UserDetailsImpl;
+import com.group3.camping_project.service.user_management.* ;
 import com.group3.camping_project.service.user_management.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +20,18 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Nullable;
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -82,8 +81,8 @@ public class AuthController {
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        authService.registerUser(signUpRequest);
+    public ResponseEntity<?> registerUser(@Valid @RequestBody  SignupRequest signUpRequest /* @RequestParam(required = false) MultipartFile file*/) {
+        authService.registerUser(signUpRequest/*,file*/);
         return ResponseEntity.ok(
                 new MessageResponse(
                         "A verification email has been sent to your email address. Please verify your email before logging in.")
@@ -101,6 +100,15 @@ public class AuthController {
     public ResponseEntity<?> handleBadRequestException(BadRequestException ex) {
         return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage()));
     }
+
+
+
+
+
+
+
+
+
 
 
 //    @PostMapping("/signup")

@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="camping_project:war">
+    <output-path>$PROJECT_DIR$/camping_project/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>camping_project</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="camping_project-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="camping_project:war exploded" />
+    </root>
+  </artifact>
+</component>
